@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Logowanie</title>
+</head>
+<body>
+  <h1>Logowanie</h1>
+  <form id="loginForm">
+    <div>
+      <label for="Email">Email:</label>
+      <input type="text" id="Email" name="Email" required>
+    </div>
+    <div>
+      <label for="password">Hasło:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Zaloguj</button>
+  </form>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Zapobieganie domyślnej akcji formularza
+
+      const email = document.getElementById('Email').value;
+      const password = document.getElementById('password').value;
+
+      // Wysyłanie żądania POST do serwera
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.token) {
+          // Zapisanie tokena w localStorage
+          localStorage.setItem('token', data.token);
+          alert('Zalogowano pomyślnie!');
+          window.location.href = '/protected'; // Przekierowanie do chronionej strony
+        } else {
+          alert('Nieprawidłowa nazwa użytkownika lub hasło!');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        alert('Wystąpił błąd serwera!');
+      });
+    });
+  </script>
+</body>
+</html>
