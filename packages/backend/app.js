@@ -11,18 +11,8 @@ const User = require("./models/User")
 app.use('/storage', express.static('storage/public'));
 app.use(express.json())
 
-const ejs = require('ejs');
-const ejsLocals = require('ejs-locals');
 
 
-app.engine('html', ejsLocals); // Rejestrujemy silnik widoku "html"
-app.set('view engine', 'html'); // Ustawiamy silnik widoku jako "html"
-
-
-app.get("/", async (req, res) => {
-  res.render("register.html")
-  }
-)
 
 
 app.get("/", async (req, res) => {
